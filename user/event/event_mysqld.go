@@ -21,6 +21,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"golang.org/x/sys/unix"
 )
@@ -136,4 +138,17 @@ func (me *MysqldEvent) Payload() []byte {
 
 func (me *MysqldEvent) PayloadLen() int {
 	return int(me.Len)
+}
+
+func (me *MysqldEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Timestamp: ")
+	s.WriteString(strconv.Itoa(int(me.Timestamp)))
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(me.Pid)))
+	s.WriteString("Comm: ")
+	s.WriteString(string(me.Comm[:]))
+	s.WriteString("\n")
+	return s.String()
 }

@@ -18,6 +18,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 // gotls_mastersecret_events
@@ -101,4 +103,17 @@ func (mge *MasterSecretGotlsEvent) Payload() []byte {
 
 func (mge *MasterSecretGotlsEvent) PayloadLen() int {
 	return len(mge.payload)
+}
+
+func (mge *MasterSecretGotlsEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Label: ")
+	s.WriteString(string(mge.Label[:mge.LabelLen]))
+	s.WriteString("ClientRandomLen: ")
+	s.WriteString(strconv.Itoa(int(mge.ClientRandomLen)))
+	s.WriteString("MasterSecretLen: ")
+	s.WriteString(strconv.Itoa(int(mge.MasterSecretLen)))
+	s.WriteString("\n")
+	return s.String()
 }

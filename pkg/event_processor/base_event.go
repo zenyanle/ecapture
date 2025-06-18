@@ -18,6 +18,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/gojue/ecapture/user/event"
 )
@@ -174,6 +176,22 @@ func (be *BaseEvent) Clone() event.IEventStruct {
 
 func (be *BaseEvent) EventType() event.EventType {
 	return be.eventType
+}
+
+func (be *BaseEvent) GetEventInfo() string {
+	// use strings.Builder to increase performance
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Timestamp: ")
+	s.WriteString(strconv.Itoa(int(be.Timestamp)))
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(be.Pid)))
+	s.WriteString("Fd: ")
+	s.WriteString(strconv.Itoa(int(be.Fd)))
+	s.WriteString("Tid: ")
+	s.WriteString(strconv.Itoa(int(be.Tid)))
+	s.WriteString("\n")
+	return s.String()
 }
 
 func CToGoString(c []byte) string {

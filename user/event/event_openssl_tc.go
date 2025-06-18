@@ -18,6 +18,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 const (
@@ -99,4 +101,21 @@ func (te *TcSkbEvent) Payload() []byte {
 
 func (te *TcSkbEvent) PayloadLen() int {
 	return int(te.Len)
+}
+
+func (te *TcSkbEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Timestamp: ")
+	s.WriteString(strconv.Itoa(int(te.Ts)))
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(te.Pid)))
+	s.WriteString("Comm: ")
+	s.WriteString(string(te.Comm[:]))
+	s.WriteString("Len: ")
+	s.WriteString(strconv.Itoa(int(te.Len)))
+	s.WriteString("Ifindex: ")
+	s.WriteString(strconv.Itoa(int(te.Ifindex)))
+	s.WriteString("\n")
+	return s.String()
 }

@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"golang.org/x/sys/unix"
@@ -95,4 +96,17 @@ func (be *ZshEvent) Payload() []byte {
 
 func (be *ZshEvent) PayloadLen() int {
 	return len(be.Line)
+}
+
+func (be *ZshEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(be.Pid)))
+	s.WriteString("Uid: ")
+	s.WriteString(strconv.Itoa(int(be.Uid)))
+	s.WriteString("Comm: ")
+	s.WriteString(string(be.Comm[:]))
+	s.WriteString("\n")
+	return s.String()
 }

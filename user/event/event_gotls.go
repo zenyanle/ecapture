@@ -5,6 +5,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 type inner struct {
@@ -74,4 +76,19 @@ func (ge *GoTLSEvent) Payload() []byte {
 
 func (ge *GoTLSEvent) PayloadLen() int {
 	return int(ge.Len)
+}
+
+func (ge *GoTLSEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Timestamp: ")
+	s.WriteString(strconv.Itoa(int(ge.TimestampNS)))
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(ge.Pid)))
+	s.WriteString("Tid: ")
+	s.WriteString(strconv.Itoa(int(ge.Tid)))
+	s.WriteString("Comm: ")
+	s.WriteString(string(ge.Comm[:]))
+	s.WriteString("\n")
+	return s.String()
 }

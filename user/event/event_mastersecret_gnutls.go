@@ -18,6 +18,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 const (
@@ -104,4 +106,15 @@ func (mse *MasterSecretGnutlsEvent) Payload() []byte {
 
 func (mse *MasterSecretGnutlsEvent) PayloadLen() int {
 	return len(mse.payload)
+}
+
+func (mse *MasterSecretGnutlsEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Version: ")
+	s.WriteString(strconv.Itoa(int(mse.Version)))
+	s.WriteString("CipherId: ")
+	s.WriteString(strconv.Itoa(int(mse.CipherId)))
+	s.WriteString("\n")
+	return s.String()
 }

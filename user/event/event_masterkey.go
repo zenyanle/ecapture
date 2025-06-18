@@ -18,6 +18,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 // openssl_mastersecret_events
@@ -125,6 +127,17 @@ func (mse *MasterSecretEvent) PayloadLen() int {
 	return len(mse.payload)
 }
 
+func (mse *MasterSecretEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Version: ")
+	s.WriteString(strconv.Itoa(int(mse.Version)))
+	s.WriteString("CipherId: ")
+	s.WriteString(strconv.Itoa(int(mse.CipherId)))
+	s.WriteString("\n")
+	return s.String()
+}
+
 // MasterSecretBSSLEvent for BoringSSL  TLS 1.3
 type MasterSecretBSSLEvent struct {
 	eventType EventType
@@ -217,4 +230,15 @@ func (msbe *MasterSecretBSSLEvent) Payload() []byte {
 
 func (msbe *MasterSecretBSSLEvent) PayloadLen() int {
 	return len(msbe.payload)
+}
+
+func (msbe *MasterSecretBSSLEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Version: ")
+	s.WriteString(strconv.Itoa(int(msbe.Version)))
+	s.WriteString("HashLen: ")
+	s.WriteString(strconv.Itoa(int(msbe.HashLen)))
+	s.WriteString("\n")
+	return s.String()
 }

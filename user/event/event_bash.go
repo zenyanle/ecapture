@@ -18,6 +18,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 /*
@@ -95,4 +97,19 @@ func (be *BashEvent) Payload() []byte {
 
 func (be *BashEvent) PayloadLen() int {
 	return len(be.Line)
+}
+
+func (be *BashEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(be.Pid)))
+	s.WriteString("Uid: ")
+	s.WriteString(strconv.Itoa(int(be.Uid)))
+	s.WriteString("ReturnValue: ")
+	s.WriteString(strconv.Itoa(int(be.ReturnValue)))
+	s.WriteString("Comm: ")
+	s.WriteString(string(be.Comm[:]))
+	s.WriteString("\n")
+	return s.String()
 }

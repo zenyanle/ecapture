@@ -18,6 +18,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 type GnutlsDataEvent struct {
@@ -119,4 +121,19 @@ func (ge *GnutlsDataEvent) Payload() []byte {
 
 func (ge *GnutlsDataEvent) PayloadLen() int {
 	return int(ge.DataLen)
+}
+
+func (ge *GnutlsDataEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Timestamp: ")
+	s.WriteString(strconv.Itoa(int(ge.Timestamp)))
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(ge.Pid)))
+	s.WriteString("Tid: ")
+	s.WriteString(strconv.Itoa(int(ge.Tid)))
+	s.WriteString("Comm: ")
+	s.WriteString(string(ge.Comm[:]))
+	s.WriteString("\n")
+	return s.String()
 }

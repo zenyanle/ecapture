@@ -40,4 +40,5 @@ type IEventStruct interface {
 	//SetModule(IModule)
 	EventType() EventType
 	GetUUID() string
+	GetEventInfo() string
 }

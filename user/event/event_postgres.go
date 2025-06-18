@@ -21,6 +21,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"golang.org/x/sys/unix"
 )
@@ -92,4 +94,17 @@ func (pe *PostgresEvent) Payload() []byte {
 
 func (pe *PostgresEvent) PayloadLen() int {
 	return len(pe.Query)
+}
+
+func (pe *PostgresEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Timestamp: ")
+	s.WriteString(strconv.Itoa(int(pe.Timestamp)))
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(pe.Pid)))
+	s.WriteString("Comm: ")
+	s.WriteString(string(pe.Comm[:]))
+	s.WriteString("\n")
+	return s.String()
 }

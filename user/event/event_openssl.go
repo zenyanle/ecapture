@@ -19,6 +19,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net/netip"
+	"strconv"
 	"strings"
 	"unsafe"
 
@@ -201,6 +202,23 @@ func (se *SSLDataEvent) EventType() EventType {
 	return se.eventType
 }
 
+func (se *SSLDataEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Timestamp: ")
+	s.WriteString(strconv.Itoa(int(se.Timestamp)))
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(se.Pid)))
+	s.WriteString("Fd: ")
+	s.WriteString(strconv.Itoa(int(se.Fd)))
+	s.WriteString("Tid: ")
+	s.WriteString(strconv.Itoa(int(se.Tid)))
+	s.WriteString("Comm: ")
+	s.WriteString(commStr(se.Comm[:]))
+	s.WriteString("\n")
+	return s.String()
+}
+
 type connDataEvent struct {
 	Saddr       [16]byte `json:"saddr"`
 	Daddr       [16]byte `json:"daddr"`
@@ -273,4 +291,23 @@ func (ce *ConnDataEvent) Payload() []byte {
 
 func (ce *ConnDataEvent) PayloadLen() int {
 	return len(ce.Tuple)
+}
+
+func (ce *ConnDataEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(ce.Pid)))
+	s.WriteString("Tid: ")
+	s.WriteString(strconv.Itoa(int(ce.Tid)))
+	s.WriteString("Fd: ")
+	s.WriteString(strconv.Itoa(int(ce.Fd)))
+	s.WriteString("Comm: ")
+	s.WriteString(commStr(ce.Comm[:]))
+	s.WriteString("Tuple: ")
+	s.WriteString(ce.Tuple)
+	s.WriteString("Family: ")
+	s.WriteString(strconv.Itoa(int(ce.Family)))
+	s.WriteString("\n")
+	return s.String()
 }

@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -137,4 +138,19 @@ func (ne *NsprDataEvent) Payload() []byte {
 
 func (ne *NsprDataEvent) PayloadLen() int {
 	return int(ne.DataLen)
+}
+
+func (ne *NsprDataEvent) GetEventInfo() string {
+	var s strings.Builder
+	s.WriteString("DEBUG: IEventStruct Info--")
+	s.WriteString("Timestamp: ")
+	s.WriteString(strconv.Itoa(int(ne.Timestamp)))
+	s.WriteString("Pid: ")
+	s.WriteString(strconv.Itoa(int(ne.Pid)))
+	s.WriteString("Tid: ")
+	s.WriteString(strconv.Itoa(int(ne.Tid)))
+	s.WriteString("Comm: ")
+	s.WriteString(string(ne.Comm[:]))
+	s.WriteString("\n")
+	return s.String()
 }
